@@ -2,7 +2,7 @@
 
 [![Etsy Bestsellers Scraper](https://apify.com/actor-badge?actor=magic-scraper/etsy-bestsellers-tags-scraper)](https://apify.com/magic-scraper/etsy-bestsellers-tags-scraper)
 ![Free Tier](https://img.shields.io/badge/Apify%20Free%20Tier-$5%20Monthly%20Credit-blue?style=flat-square)
-![Pay-Per-Result](https://img.shields.io/badge/Pricing-$1.20%20%2F%201K%20results-blue?style=flat-square)
+![Pay-Per-Result](https://img.shields.io/badge/Pricing-$3.00%20%2F%201K%20results-blue?style=flat-square)
 ![No Cookies Required](https://img.shields.io/badge/Cookies-Not%20Required-success?style=flat-square)
 ![Export](https://img.shields.io/badge/Export-JSON%20|%20CSV%20|%20Excel-orange?style=flat-square)
 
@@ -25,7 +25,7 @@ Python examples and API reference for the **[Etsy Bestsellers & Tags Scraper](ht
 
 | | |
 | :--- | :--- |
-| **Pricing** | $1.20 per 1,000 listings + $0.00005 start fee (≈4,100 listings/month inside Apify's free $5 credit) |
+| **Pricing** | $3.00 per 1,000 listings + $0.00005 start fee (≈1,660 listings/month inside Apify's free $5 credit) |
 | **Run time (measured)** | ~10–35 s for 20 search results; ~9 s for one listing URL |
 | **How it works** | Real browser session (Etsy uses DataDome), data read from Etsy's own JSON endpoints |
 | **Tags** | Etsy's *Explore related searches* tags from the listing page, ~20–23 per listing — never guessed from the title |
