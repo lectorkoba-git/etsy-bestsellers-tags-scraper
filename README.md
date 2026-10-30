@@ -26,8 +26,8 @@ Python examples and API reference for the **[Etsy Bestsellers & Tags Scraper](ht
 | | |
 | :--- | :--- |
 | **Pricing** | $3.00 per 1,000 listings + $0.00005 start fee (≈1,660 listings/month inside Apify's free $5 credit) |
-| **Run time (measured)** | ~10–35 s for 20 search results; ~9 s for one listing URL |
-| **How it works** | Real browser session (Etsy uses DataDome), data read from Etsy's own JSON endpoints |
+| **Run time (measured)** | ~11 s for 5 keywords × 20 listings + 3 listing URLs (102 listings with tags) |
+| **How it works** | Plain HTTP (no browser) through Apify residential proxy (Etsy uses DataDome); data read from Etsy's own listing-card and tag endpoints |
 | **Tags** | Etsy's *Explore related searches* tags from the listing page, ~20–23 per listing — never guessed from the title |
 | **Unknown values** | `null` (e.g. `inCartCount`: Etsy does not show the in-cart counter in guest search results) |
 | **Login / cookies** | Not required |
@@ -79,7 +79,7 @@ run_input = {"listingUrls": ["https://www.etsy.com/listing/1391093641"]}
 | `bestsellersOnly` | `boolean` | `false` | Keep only listings with the Bestseller badge. |
 | `onSaleOnly` | `boolean` | `false` | Keep only discounted listings. |
 | `freeShippingOnly` | `boolean` | `false` | Keep only free-shipping listings. |
-| `proxyConfiguration` | `object` | `{"useApifyProxy": false}` | No proxy by default (most reliable for Etsy). If enabled, Residential proxy in the `countryCode` market. |
+| `proxyConfiguration` | `object` | Apify RESIDENTIAL | Etsy blocks datacenter IPs, so residential proxy in the `countryCode` market is the default; its traffic is included in the price. |
 
 ---
 
@@ -91,7 +91,7 @@ run_input = {"listingUrls": ["https://www.etsy.com/listing/1391093641"]}
 | `title` | `string` | Listing title. |
 | `price` | `number` | Current price. |
 | `originalPrice` | `number \| null` | Price before discount. |
-| `currency` | `string` | Currency code (`USD`, `EUR`, `GBP`, …). |
+| `currency` | `string` | Currency code of the `countryCode` market (`USD`, `EUR`, `GBP`, `CAD`, …). |
 | `discountPercentage` | `number \| null` | Discount in percent. |
 | `isOnSale` | `boolean` | Active discount. |
 | `inCartCount` | `string \| null` | In-cart counter if Etsy shows it on the card; almost always `null` in guest search results. |
@@ -100,8 +100,8 @@ run_input = {"listingUrls": ["https://www.etsy.com/listing/1391093641"]}
 | `isFreeShipping` | `boolean` | Free shipping. |
 | `isDigitalDownload` | `boolean` | Digital download. |
 | `isRunningAds` | `boolean` | Sponsored (ad) listing. |
-| `rating` | `number \| null` | Star rating out of 5. |
-| `reviewsCount` | `integer \| null` | Review count when shown. |
+| `rating` | `number \| null` | Shop star rating out of 5, as shown on the card. |
+| `reviewsCount` | `integer \| null` | Shop review count as shown on the card (Etsy rounds, e.g. 19.8k → 19800). |
 | `shopName` | `string` | Shop name. |
 | `shopId` | `string` | Shop ID. |
 | `shopUrl` | `string` | Shop URL. |
@@ -115,29 +115,29 @@ run_input = {"listingUrls": ["https://www.etsy.com/listing/1391093641"]}
 
 ```json
 {
-  "listingId": "1391093641",
-  "title": "PERSONALISED Leather Wallet With RFID Blocking Technology For Men - Chocolate Brown - HT13 - Gift Boxed - Best Seller - Embossed Wallet",
-  "price": 41.78,
-  "originalPrice": null,
+  "listingId": "4413275617",
+  "title": "18K GOLD Chain Necklace - Thick Big Link Chain Twist Figaro Bead Herringbone Necklace Pearl Waterproof Necklace for Women Men Christmas Gift",
+  "price": 29.18,
+  "originalPrice": 44.9,
   "currency": "USD",
-  "discountPercentage": null,
-  "isOnSale": false,
+  "discountPercentage": 35,
+  "isOnSale": true,
   "inCartCount": null,
-  "isBestseller": false,
-  "isStarSeller": false,
+  "isBestseller": true,
+  "isStarSeller": true,
   "isFreeShipping": false,
   "isDigitalDownload": false,
-  "isRunningAds": false,
-  "rating": 4.9,
-  "reviewsCount": null,
-  "shopName": "ViscontiLeather",
-  "shopId": "13272288",
-  "shopUrl": "https://www.etsy.com/shop/ViscontiLeather",
-  "listingUrl": "https://www.etsy.com/listing/1391093641",
-  "imageUrl": "https://i.etsystatic.com/13272288/r/il/22cdd2/4558866501/il_300x300.4558866501_kjcm.jpg",
-  "tags": ["Rfid Leather Wallet", "Embossed Black Wallet", "Leather Wallets for Engraving"],
-  "searchQuery": "direct_url",
-  "scrapedAt": "2026-10-29T09:03:50+00:00"
+  "isRunningAds": true,
+  "rating": 4.81,
+  "reviewsCount": 19800,
+  "shopName": "GoldnBlonde",
+  "shopId": "31814650",
+  "shopUrl": "https://www.etsy.com/shop/GoldnBlonde",
+  "listingUrl": "https://www.etsy.com/listing/4413275617",
+  "imageUrl": "https://i.etsystatic.com/31814650/r/il/5ee12f/8760570770/il_255x319.8760570770_3ju8.jpg",
+  "tags": ["Most Popular Jewelry", "18k Necklace Chain", "Gold Plated Chain"],
+  "searchQuery": "gold necklace",
+  "scrapedAt": "2026-10-30T10:58:43.211306+00:00"
 }
 ```
 
