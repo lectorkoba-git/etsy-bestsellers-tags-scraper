@@ -1,4 +1,4 @@
-# 🎨 Etsy Bestsellers, Live Carts & Tags Scraper
+# 🎨 Etsy Bestsellers & Tags Scraper
 
 [![Etsy Bestsellers Scraper](https://apify.com/actor-badge?actor=magic-scraper/etsy-bestsellers-tags-scraper)](https://apify.com/magic-scraper/etsy-bestsellers-tags-scraper)
 ![Free Tier](https://img.shields.io/badge/Apify%20Free%20Tier-$5%20Monthly%20Credit-blue?style=flat-square)
@@ -6,7 +6,7 @@
 ![No Cookies Required](https://img.shields.io/badge/Cookies-Not%20Required-success?style=flat-square)
 ![Export](https://img.shields.io/badge/Export-JSON%20|%20CSV%20|%20Excel-orange?style=flat-square)
 
-Python examples and API reference for the **[Etsy Bestsellers & Tags Scraper](https://apify.com/magic-scraper/etsy-bestsellers-tags-scraper)** on Apify: Etsy listings with live in-cart counters, bestseller and star-seller badges, discounts, shop info and Etsy's own keyword tags — as JSON, CSV or Excel.
+Python examples and API reference for the **[Etsy Bestsellers & Tags Scraper](https://apify.com/magic-scraper/etsy-bestsellers-tags-scraper)** on Apify: Etsy listings with bestseller and star-seller badges, discounts, shop info and Etsy's own keyword tags — as JSON, CSV or Excel.
 
 > ⚡ **No code needed:** 👉 **[Run it in your browser on Apify (free $5 monthly credit)](https://apify.com/magic-scraper/etsy-bestsellers-tags-scraper)**
 
@@ -15,7 +15,7 @@ Python examples and API reference for the **[Etsy Bestsellers & Tags Scraper](ht
 ## 🎯 Who is this for?
 
 - **Etsy sellers & POD designers** — collect the keyword tags top listings rank for.
-- **Product researchers & dropshippers** — spot demand through `inCartCount` ("20+ in carts").
+- **Product researchers & dropshippers** — spot what sells through bestseller and star-seller badges.
 - **Digital product creators** — filter `isDigitalDownload` to study best-selling templates and printables.
 - **Competitor trackers** — monitor prices, discounts and bestseller badges over time.
 
@@ -29,7 +29,7 @@ Python examples and API reference for the **[Etsy Bestsellers & Tags Scraper](ht
 | **Run time (measured)** | ~10–35 s for 20 search results; ~9 s for one listing URL |
 | **How it works** | Real browser session (Etsy uses DataDome), data read from Etsy's own JSON endpoints |
 | **Tags** | Etsy's *Explore related searches* tags from the listing page, ~20–23 per listing — never guessed from the title |
-| **Unknown values** | `null` (e.g. `inCartCount` when Etsy shows no counter) |
+| **Unknown values** | `null` (e.g. `inCartCount`: Etsy does not show the in-cart counter in guest search results) |
 | **Login / cookies** | Not required |
 
 ---
@@ -55,7 +55,7 @@ run = client.actor("magic-scraper/etsy-bestsellers-tags-scraper").call(run_input
 })
 
 for item in client.dataset(run["defaultDatasetId"]).iterate_items():
-    print(item["inCartCount"], item["title"], item["price"], item["currency"])
+    print(item["isBestseller"], item["title"], item["price"], item["currency"])
     print("  tags:", ", ".join(item["tags"][:5]))
 ```
 
@@ -94,7 +94,7 @@ run_input = {"listingUrls": ["https://www.etsy.com/listing/1391093641"]}
 | `currency` | `string` | Currency code (`USD`, `EUR`, `GBP`, …). |
 | `discountPercentage` | `number \| null` | Discount in percent. |
 | `isOnSale` | `boolean` | Active discount. |
-| `inCartCount` | `string \| null` | In-cart counter as shown by Etsy (e.g. `"20+"`). |
+| `inCartCount` | `string \| null` | In-cart counter if Etsy shows it on the card; almost always `null` in guest search results. |
 | `isBestseller` | `boolean` | Bestseller badge. |
 | `isStarSeller` | `boolean` | Star Seller badge. |
 | `isFreeShipping` | `boolean` | Free shipping. |
